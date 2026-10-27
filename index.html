@@ -771,15 +771,11 @@
           <label for="guest-count">Number of guests, including you</label>
 
           <select id="guest-count" name="guest_count">
-
-            <option value="1">1 guest</option>
-
+            <option value="0">None (I can't attend)</option>
+            <option value="1" selected>1 guest</option>
             <option value="2">2 guests</option>
-
             <option value="3">3 guests</option>
-
             <option value="4">4 guests</option>
-
           </select>
 
           <label for="message">A message (optional)</label>
@@ -1029,6 +1025,21 @@
     const form = document.getElementById("rsvp-form");
 
     const responseMessage = document.getElementById("response-message");
+
+    const attendanceSelect = document.getElementById("attendance");
+    const guestCountSelect = document.getElementById("guest-count");
+
+    // If the guest declines, set the number of guests to None (0).
+    attendanceSelect.addEventListener("change", function() {
+      if (attendanceSelect.value === "Regretfully declines") {
+        guestCountSelect.value = "0";
+      } else if (
+        attendanceSelect.value === "Joyfully accepts" &&
+        guestCountSelect.value === "0"
+      ) {
+        guestCountSelect.value = "1";
+      }
+    });
 
     form.addEventListener("submit", async function(event) {
 
